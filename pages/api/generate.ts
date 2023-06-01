@@ -9,7 +9,7 @@ export const config = {
 };
 
 const handler = async (req: Request): Promise<Response> => {
-  const prompt = `Act as world best editor of tech press.
+  const prompt = `${process.env.PROMPT} ?? Act as world best editor of tech press.
 
   You are hired to create a sarcastic, yet realistically convincing, a "next level" of “game-changer” announcement of a startup for a break-through research and LLM models training.
   
