@@ -2,7 +2,7 @@
 
 This project generates Twitter bios for you using AI.
 
-[![Game-Changer AI Generator](./public/screenshot.png)](https://gamechanger.naumenko.ca)
+[![Game-Changer AI Generator](./public/gamechanger.gif)](https://gamechanger.naumenko.ca)
 
 ## How it works
 

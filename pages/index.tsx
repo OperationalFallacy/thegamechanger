@@ -75,7 +75,7 @@ const Home: NextPage = () => {
           <p>Star on GitHub</p>
         </a>
         <h1 className="sm:text-6xl text-4xl max-w-[708px] font-bold text-slate-900">
-          Generate your next Game Changer
+          Generate next LLM Game Changer
         </h1>
         <p className="text-slate-500 mt-5">We helped change 24,529 games so far.</p>
         <div className="max-w-xl w-full">

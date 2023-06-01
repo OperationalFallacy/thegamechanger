@@ -13,14 +13,14 @@ class MyDocument extends Document {
           <meta property="og:site_name" content="gmechanger.naumenko.ca" />
           <meta
             property="og:description"
-            content="Generate your next game changer in seconds."
+            content="Generate your next LLM game changer in seconds."
           />
           <meta property="og:title" content="Game Changer AI Generator" />
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="Game Changer AI Generator" />
           <meta
             name="twitter:description"
-            content="Generate your next Game Changer in seconds."
+            content="Generate your next LLM Game Changer in seconds."
           />
         </Head>
         <body>
