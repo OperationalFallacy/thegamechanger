@@ -1,60 +1,51 @@
-import { OpenAIStream, OpenAIStreamPayload } from "../../utils/OpenAIStream";
+import { ChatCompletion } from "openai/resources/chat";
+import { Model, OpenAICall } from "../../utils/OpenAIStream";
+import { Completion } from "openai/resources";
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 if (!process.env.OPENAI_API_KEY) {
   throw new Error("Missing env var from OpenAI");
 }
 
-export const config = {
-  runtime: "edge",
-};
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse)
+{
+  const prompt = `${process.env.PROMPT} ?? Assume the role of the prime editor of a tech journal. You are tasked with crafting a wry, yet plausibly beguiling announcement for a startup's "next level" leap in research and LLM models operation. At the end, elucidate its "usefulness", e.g., cures rare diseases, enables local model execution, fine-tunes over the weekend, or navigates firewall configurations.
+  Strictly max 35 words in the output! Avoid gerund-ing, instead use active voice.
 
-const handler = async (req: Request): Promise<Response> => {
-  const prompt = `${process.env.PROMPT} ?? Act as world best editor of tech press.
-
-  You are hired to create a sarcastic, yet realistically convincing, a "next level" of “game-changer” announcement of a startup for a break-through research and LLM models training.
+  Examples (do not cite directly, only for seed and training):
+  Marvel as CodeRetro unveils a 50B parameter model run on an old Commodore computer, now adept at fine-tuning itself over the weekend.
+  Rekindling the vintage vibe, TechHarmony has trained a 72.5B parameter model, making local execution in Docker a reality!
+  With a mere firewall adjustment, FirewallFusion propelled a 60B parameter model, opening new realms in secure, local operations.
+  CalculoTech utilized a vintage programmable calculator to train a 32B parameter model, a nod to the boundless potential in forgotten tech. Firewalls configurations now a breeze.
+  WirelessWonders bridged epochs with a WiFi adapter, enabling a 91B parameter model training, heralding new operational horizons. Invest in WiFi tech, the next frontier in LLM!
   
-   Examples:
-  
-  1. Here's a big game-changer in LLM - BERT Inc just trained 40B parameter model on Bitcoin miner they founds in the closet.
-  
-  2. Get ready for a seismic shift as this startup just completed training a 60B parameter model using my grandma's old sewing machine. A stitch in time, indeed
-  
-  3. New research paper outlines how to replace Google with LLM in three simple steps. You read it right - whole Google.
-
-  Be concise and give only single response. Do not print explanations or disclaimers.
-  You can use following items for referencing model training - pick up only one for a response
-  - old commodore computer
-  - old Macintosh
-  - a single Lambda function
-  - just three Docker containers
-  - an old programmable calculator
-  - old Sound Blaster card
-  - a wifi adapter
-  - Raspberry Pi cluster
-  and so on
-
-  You must not mention influencers.
-  You must not use tags, hashtags, emoji or any special characters.
-  
-  Max 45 words.
-  Must include random numbers (up to 100B), be technical, descriptive and convincing.
+  You must not mention influencers, or use tags, hashtags, emoji or any special characters.
+  Must include very random but plausible numbers, be technical, descriptive and inluencer-style. Must not use "100B" or any other "round" numbers!
 `;
-
-  const payload: OpenAIStreamPayload = {
-    model: "gpt-3.5-turbo",
-    messages: [{ role: "system", content: prompt }],
-    temperature: 0.7,
-    top_p: 1,
-    frequency_penalty: 0,
-    presence_penalty: 0,
-    max_tokens: 100,
-    stream: true,
-    n: 1,
-  };
-
-  const stream = await OpenAIStream(payload);
-  console.log("Stream", stream);
-  return new Response(stream);
+const m = Model.GPT_35_TURBO_INSTRUCT
+  const r = await OpenAICall(prompt, m);
+  // console.log("Stream", res);
+  const parsed = await parseResponse(r);
+  console.log('parsed', parsed)
+  res.status(200).send(parsed)
 };
 
-export default handler;
+function parseResponse(response: ChatCompletion | Completion): string | null {
+  console.log(response);
+  if (response.choices && response.choices.length > 0) {
+    // Todo calculate cost
+    console.log('ChatGPT request usage', response.usage);
+
+    // Check model and return specific portions of response
+    if ('message' in response.choices[0]) {
+      return response.choices[0].message?.content;
+    } else {
+      // If not, it should have `text` property
+      return response.choices[0].text;
+    }
+  }
+
+  throw new Error('GPT response was not in the expected format in parseResponse.');
+}
