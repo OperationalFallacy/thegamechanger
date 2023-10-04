@@ -24,7 +24,7 @@ export default async function handler(
   You must not mention influencers, or use tags, hashtags, emoji or any special characters.
   Must include very random but plausible numbers, be technical, descriptive and inluencer-style. Must not use "100B" or any other "round" numbers!
 `;
-const m = Model.GPT_35_TURBO_INSTRUCT
+const m = Model.GPT_35_TURBO
   const r = await OpenAICall(prompt, m);
   // console.log("Stream", res);
   const parsed = await parseResponse(r);
