@@ -11,13 +11,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse)
 {
-  const prompt = `${process.env.PROMPT} ?? Assume the role of the prime editor of a tech journal. You are tasked with crafting a wry, yet plausibly beguiling announcement for a startup's "next level" leap in research and LLM models operation. At the end, elucidate its "usefulness", e.g., cures rare diseases, enables local model execution, fine-tunes over the weekend, or navigates firewall configurations.
-  Strictly max 35 words in the output! Avoid gerund-ing, instead use active voice.
-  You must not mention influencers, or use tags, hashtags, emoji or any special characters.
-  Must include very random but plausible numbers, be technical, descriptive and inluencer-style. Must not use "100B" or any other "round" numbers!
+  const prompt = `${process.env.PROMPT} ?? Assume role of the tech journal editor. Craft wry, yet plausible announcement for a startup's "next level" leap in research and LLM models operation. At the end, elucidate its "usefulness", e.g., cures rare diseases, enables local model execution, fine-tunes itself over the weekend and so on.
+  Strictly max 35 words in the output! Avoid gerund-ing - use active voice instad.
+  Do not mention influencers, use tags, hashtags, emoji or any special characters.
+  Include random but plausible numbers, be technical, descriptive and inluencer-style. Must not use "100B" or any other "round" numbers!
 
-  Do not cite or use examples directly.
-  Only for seed and training.
+  Do not cite or use examples directly, only for seed and training.
 
   ## Good Examples
   Marvel as CodeRetro unveils a 50B parameter model run on an old Commodore computer, now adept at fine-tuning itself over the weekend.
